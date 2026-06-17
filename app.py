@@ -13,8 +13,8 @@ DATABASE = 'weather_dashboard.db'
 # ========================================================
 # 1. PASTE YOUR API KEY HERE ONLY
 # ========================================================
-API_KEY = 'YOUR_API_KEY' 
-# ========================================================
+API_KEY = 'PASTE_YOUR_OPENWEATHER_API_KEY' 
+# =======================================================
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
@@ -22,14 +22,24 @@ def get_db_connection():
     return conn
 
 def init_db():
-    if not os.path.exists(DATABASE):
-        print("[DATABASE INFO] Database file missing. Creating fresh SQLite database layers...")
-        conn = get_db_connection()
+    # Connect and check if the 'users' table actually exists inside the database
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Query SQLite system tables to see if 'users' exists
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='users';")
+    table_exists = cursor.fetchone()
+    
+    if not table_exists:
+        print("[DATABASE INFO] Tables missing. Creating fresh SQLite database layers...")
         with app.open_resource('schema.sql', mode='r') as f:
-            conn.cursor().executescript(f.read())
+            cursor.executescript(f.read())
         conn.commit()
-        conn.close()
-        print("[DATABASE INFO] Database system initiated successfully.")
+        print("[DATABASE INFO] Database system initiated successfully with schema.sql.")
+    else:
+        print("[DATABASE INFO] Database tables verified. Skipping initialization.")
+        
+    conn.close()
 
 @app.context_processor
 def inject_user():
