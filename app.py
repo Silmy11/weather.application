@@ -20,7 +20,6 @@ def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
-
 def init_db():
     # Connect and check if the 'users' table actually exists inside the database
     conn = get_db_connection()
