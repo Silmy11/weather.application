@@ -13,13 +13,14 @@ DATABASE = 'weather_dashboard.db'
 # ========================================================
 # 1. PASTE YOUR API KEY HERE ONLY
 # ========================================================
-API_KEY = 'PASTE_YOUR_OPENWEATHER_API_KEY' 
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
 # =======================================================
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
+
 def init_db():
     # Connect and check if the 'users' table actually exists inside the database
     conn = get_db_connection()
@@ -299,4 +300,5 @@ def manage_favorites():
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    if __name__ == "__main__":
+      app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
