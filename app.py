@@ -11,9 +11,9 @@ app.secret_key = 'dev_secret_key_1234'
 DATABASE = 'weather_dashboard.db'
 
 # ========================================================
-# 1. PASTE YOUR API KEY HERE ONLY
+# 1. READ API KEY DIRECTLY AS A STRING (NO ENV NEEDED)
 # ========================================================
-API_KEY = os.getenv("OPENWEATHER_API_KEY")
+API_KEY = "af4e4305c016127cf3c2b01ba439e6a7"
 # =======================================================
 
 def get_db_connection():
@@ -160,12 +160,11 @@ def get_weather_data():
     
     print(f"[API INFO] Received tracking query request. Parameters -> City: {city}, Lat: {lat}, Lon: {lon}")
     
-    if API_KEY == 'PASTE_YOUR_OPENWEATHER_API_KEY_HERE' or not API_KEY:
+    if not API_KEY or API_KEY == 'PASTE_YOUR_OPENWEATHER_API_KEY_HERE':
         print("[CRITICAL ERROR] OpenWeather API Key is completely missing or left as placeholder text!")
         return jsonify({'error': 'OpenWeatherMap API Key configuration is missing on the server.'}), 500
 
     try:
-        # Geolocation parameter intercept mapping
         if lat and lon:
             print(f"[API INFO] Resolving coordinate telemetry parameters via reverse geocode...")
             geo_url = f"https://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={API_KEY}"
@@ -300,5 +299,4 @@ def manage_favorites():
 
 if __name__ == '__main__':
     init_db()
-    if __name__ == "__main__":
-      app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
