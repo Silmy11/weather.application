@@ -13,7 +13,7 @@ DATABASE = 'weather_dashboard.db'
 # ========================================================
 # 1. READ API KEY DIRECTLY AS A STRING (NO ENV NEEDED)
 # ========================================================
-API_KEY = "af4e4305c016127cf3c2b01ba439e6a7"
+API_KEY = "YOUR_API_KEY"
 # =======================================================
 
 def get_db_connection():
